@@ -1,15 +1,47 @@
+let app;
+let token;
+
 window.addEventListener('load', function(even) {
   document.getElementById('login').onclick = loginClickHandler;
   document.getElementById('getusers').onclick = getUsersHandler;
+  document.getElementById('create').onclick = createUserHandler;
+  app = document.getElementById('app');
 });
 
-function append(parent, text) {
+function append(text) {
   let p = document.createElement('p');
   p.innerText = text;
-  parent.appendChild(p);
+  app.appendChild(p);
 }
 
-let token;
+function createUserHandler() {
+  let obj = {}
+  obj.firstname = document.getElementById('firstname').value;
+  obj.lastname = document.getElementById('lastname').value;
+  obj.email = document.getElementById('email').value;
+  obj.isAdmin = document.getElementById('isadmin').checked;
+  obj.password = document.getElementById('password').value;
+
+  axios({
+    method: 'post',
+    url: 'http://localhost:8080/users',
+    headers: { Authorization: 'Bearer ' + token },
+    data: obj
+  })
+    .then(function(response) {
+      return response.data;
+    })
+    .then(users => {
+      append(JSON.stringify(users))
+      return;
+      for (let ix = 0; ix < users.length; ix++) {
+        append(JSON.stringify(users[ix]));
+      }
+    })
+    .catch(function(err) {
+      append(err);
+    });
+}
 
 function getUsersHandler() {
   axios({
@@ -21,22 +53,21 @@ function getUsersHandler() {
       return response.data;
     })
     .then(users => {
-      console.log(users);
+      for (let ix = 0; ix < users.length; ix++) {
+        append(JSON.stringify(users[ix]));
+      }
     })
     .catch(function(err) {
-      console.error(err);
+      append(err);
     });
 }
 
 function loginClickHandler() {
-  let parent = document.getElementById('app');
-  let email = document.getElementById('email').value;
-  let password = document.getElementById('password').value;
-  append(parent, email);
-  append(parent, password);
+  let email = document.getElementById('emailinp').value;
+  let password = document.getElementById('passwordinp').value;
   axios({
     method: 'get',
-    url: 'http://localhost:8080/authorize',
+    url: 'http://localhost:8080/session',
     auth: {
       username: email,
       password: password
@@ -47,9 +78,9 @@ function loginClickHandler() {
     })
     .then(d => {
       token = d.token;
-      console.log(d.token);
+      append('logged in ' + d.token);
     })
     .catch(function(err) {
-      console.error(err);
+      append(err);
     });
 }

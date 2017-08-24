@@ -7,20 +7,55 @@
     <title>Test</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        p {
+            margin: 0;
+        }
+        .section {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid grey;
+            overflow: auto
+        }
+    </style>
+
 </head>
 
 <body>
-    <div>
+    <div class="section">
         <span>Email:</span>
-        <input id="email" type="text" value="fred@bedrock.gov" />
+        <input id="emailinp" type="text" value="fred@bedrock.gov" />
         <span>Password</span>
-        <input id="password" type="text" value="password" />
+        <input id="passwordinp" type="text" value="password" />
         <input id="login" type="button" value="Log in">
     </div>
-    <div>
+    <div class="section">
+        <div>
+            <span>Firstname</span>
+            <input id="firstname" type="text" value="test" />
+        </div>
+        <div>
+            <span>Lastname</span>
+            <input id="lastname" type="text" value="test" />
+        </div>
+        <div>
+            <span>Email</span>
+            <input id="email" type="text" />
+        </div>
+        <div>
+            <span>Admin</span>
+            <input id="isadmin" type="checkbox" />
+        </div>
+        <div>
+            <span>Password</span>
+            <input id="password" type="text" value="password" />
+        </div>
+        <input id="create" type="button" value="Create">
+    </div>
+    <div class="section">
         <input id="getusers" type="button" value="Get users">
     </div>
-    <div id="app"></div>
+    <div class="section" id="app"></div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="main.js"></script>
 </body>
